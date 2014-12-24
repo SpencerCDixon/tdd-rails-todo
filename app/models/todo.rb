@@ -4,6 +4,10 @@ class Todo < ActiveRecord::Base
   end
 
   def complete!
-    self.touch :completed_at
+    touch :completed_at
+  end
+
+  def mark_incomplete!
+    update_column :completed_at, nil 
   end
 end
