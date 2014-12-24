@@ -2,7 +2,7 @@ class TodosController < ApplicationController
   before_filter :authenticate
 
   def index
-    @todos = Todo.all.limit(10)
+    @todos = Todo.where(email: session[:current_email])
   end
 
   def new
@@ -10,13 +10,8 @@ class TodosController < ApplicationController
   end
 
   def create
-    @todo = Todo.new(todo_params)
-
-    if @todo.save
-      redirect_to todos_path
-    else
-      render 'new'
-    end
+    @todo = Todo.create(todo_params.merge(email: session[:current_email]))
+    redirect_to todos_path
   end
 
   private
